@@ -52,10 +52,10 @@ const CartPage: React.FC = () => {
               <li key={item.id} className="flex justify-between items-center bg-white-100 p-4 rounded shadow">
                 <div>
                   <h2 className="font-semibold text-white py-1 px-3">{item.name}</h2>
-                  <p className="font-semibold text-white py-1 px-2">Price: {item.price ? `₹${item.price}` : 'N/A'}</p>
+                  <p className="font-semibold text-white py-1 px-2">Price: {item.discounted_price ? `₹${item.discounted_price}` : 'N/A'}</p>
                   <p className="font-semibold text-white py-1 px-2">Quantity: {item.qty}</p>
                   <p className="font-semibold text-white py-1 px-2">
-                    Total: {item.price ? `₹${(parseFloat(item.price) * item.qty).toFixed(2)}` : 'N/A'}
+                    Total: {item.discounted_price ? `₹${(parseFloat(item.discounted_price) * item.qty).toFixed(2)}` : 'N/A'}
                   </p>
                 </div>
                 <div className="flex items-center space-x-2">

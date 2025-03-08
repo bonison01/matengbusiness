@@ -6,7 +6,7 @@ import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 export interface CartItem {
   id: number;
   name: string;
-  price?: string;
+  discounted_price?: string;
   qty: number;
 }
 
@@ -39,15 +39,15 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const fetchProductDetails = async (id: number) => {
     const { data, error } = await supabase
       .from('new_products')
-      .select('name, price_inr')
+      .select('name, discounted_price')
       .eq('id', id)
       .single();
 
     if (error) {
       console.error('Error fetching product details:', error.message);
-      return { name: 'Unknown', price: undefined };
+      return { name: 'Unknown', discounted_price: undefined };
     }
-    return { name: data.name, price: data.price_inr };
+    return { name: data.name, discounted_price: data.discounted_price };
   };
 
   const addToCart = async (item: CartItem) => {
@@ -78,7 +78,7 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const clearCart = () => setCart([]);
 
   const totalPrice = cart.reduce(
-    (total, item) => total + (item.price ? parseFloat(item.price) * item.qty : 0),
+    (total, item) => total + (item.discounted_price ? parseFloat(item.discounted_price) * item.qty : 0),
     0
   );
 

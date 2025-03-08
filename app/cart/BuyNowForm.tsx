@@ -8,7 +8,7 @@ import "./Cart.css"
 interface CartItem {
   id: number;
   name: string;
-  price?: string;
+  discounted_price?: string;
   qty: number;
 }
 
@@ -32,7 +32,7 @@ const BuyNowForm: React.FC<BuyNowFormProps> = ({ items, totalPrice, onClose, onO
   useEffect(() => {
     // Calculate total price based on items and update the state
     const calculatedPrice = items.reduce((acc, item) => {
-      const itemTotal = item.price ? parseFloat(item.price) * item.qty : 0;
+      const itemTotal = item.discounted_price ? parseFloat(item.discounted_price) * item.qty : 0;
       return acc + itemTotal;
     }, 0);
     setTotalCalculatedPrice(calculatedPrice);
@@ -78,9 +78,9 @@ const BuyNowForm: React.FC<BuyNowFormProps> = ({ items, totalPrice, onClose, onO
         item_list: items.map((item) => ({
           id: item.id,
           name: item.name,
-          price: item.price || 'N/A',
+          price: item.discounted_price || 'N/A',
           quantity: item.qty,
-          total: item.price ? (parseFloat(item.price) * item.qty).toFixed(2) : 'N/A',
+          total: item.discounted_price ? (parseFloat(item.discounted_price) * item.qty).toFixed(2) : 'N/A',
         })),
       };
 
@@ -180,15 +180,15 @@ const BuyNowForm: React.FC<BuyNowFormProps> = ({ items, totalPrice, onClose, onO
                 <strong>Item:</strong> {item.name}
               </p>
               <p>
-                <strong>Price:</strong> {item.price || 'N/A'}
+                <strong>Price:</strong> {item.discounted_price || 'N/A'}
               </p>
               <p>
                 <strong>Quantity:</strong> {item.qty}
               </p>
               <p>
                 <strong>Total:</strong>{' '}
-                {item.price
-                  ? `₹${(parseFloat(item.price) * item.qty).toFixed(2)}`
+                {item.discounted_price
+                  ? `₹${(parseFloat(item.discounted_price) * item.qty).toFixed(2)}`
                   : 'N/A'}
               </p>
               <hr style={{ margin: '1rem 0', borderColor: '#444' }} />
