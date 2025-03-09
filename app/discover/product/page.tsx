@@ -82,7 +82,7 @@ const AllProductMediaPage = () => {
     addToCart({
       id: product.id,
       name: product.name,
-      price: product.price,
+      discounted_price: product.discounted_price,
       qty: 1,
     });
     router.push('/cart');
@@ -92,7 +92,7 @@ const AllProductMediaPage = () => {
     addToCart({
       id: product.id,
       name: product.name,
-      price: product.price || 'N/A',
+      discounted_price: product.discounted_price || 'N/A',
       qty: 1,
     });
     setSelectedProduct(product);
