@@ -105,8 +105,8 @@ const Orders = () => {
       'Order ID': order.order_id,
       Quantity: order.quantity,
       'Name': order.name,
-      'Buyer Address': order.buyer_address,
-      'Buyer Phone': order.buyer_phone,
+      'Address': order.buyer_address,
+      'Phone': order.buyer_phone,
       'Created At': new Date(order.created_at).toLocaleString(),
       Status: order.status,
       'Item List': order.item_list.map(item => `${item.name} (${item.quantity} x ₹${item.price})`).join(', '),
@@ -156,8 +156,8 @@ const Orders = () => {
             <div class="barcode"><img src="${barcodeUrl}" alt="Barcode" /></div>
           </div>
           <p><strong>Name:</strong> ${order.name}</p>
-          <p><strong>Buyer Address:</strong> ${order.buyer_address}</p>
-          <p><strong>Buyer Phone:</strong> ${order.buyer_phone}</p>
+          <p><strong>Address:</strong> ${order.buyer_address}</p>
+          <p><strong>Phone:</strong> ${order.buyer_phone}</p>
           <p><strong>Created At:</strong> ${new Date(order.created_at).toLocaleString()}</p>
           <table>
             <thead>
@@ -221,8 +221,8 @@ const Orders = () => {
               <th>Order ID</th>
               <th>Quantity</th>
               <th>Name</th>
-              <th>Buyer Address</th>
-              <th>Buyer Phone</th>
+              <th>Address</th>
+              <th>Phone</th>
               <th>Created At</th>
               <th>Status</th>
               <th>Item List</th>

@@ -1,0 +1,137 @@
+/* Container styling */
+.container {
+  max-width: 900px;
+  margin: 40px auto;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Soft shadow */
+  font-family: 'Arial', sans-serif; /* Clean font style */
+  color: #ffffff; /* Neutral text color */
+}
+
+/* Title styling */
+.title {
+  font-size: 2.5rem;
+  font-weight: bold;
+  text-align: center;
+  color: #ffffff; /* Green for emphasis */
+  margin-bottom: 30px;
+}
+
+/* Input wrapper */
+.inputWrapper {
+  margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+/* Label styling */
+.label {
+  font-size: 1.1rem;
+  font-weight: bold;
+  margin-bottom: 8px;
+  color: #fff9f9;
+}
+.links {
+  font-weight: bold;
+  text-align: center;
+  color: #ffffff; /* White color for emphasis */
+  text-decoration: underline; /* Underline the links */
+  transition: color 0.3s ease; /* Smooth color transition */
+}
+
+.links:hover {
+  color: #008f0c; /* Golden color on hover */
+}
+
+
+/* Custom styling for react-select fields */
+.selectField {
+  width: 100%;
+  font-size: 1rem;
+  border: none;
+  outline: none;
+  color: #000000; /* Neutral text color */
+  border-radius: 5px;
+  padding: 10px 12px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+  transition: all 0.3s ease;
+}
+
+.selectField:hover {
+  box-shadow: 0 4px 12px rgba(231, 231, 231, 0.2); /* Slightly stronger shadow on hover */
+}
+
+.selectField:focus {
+  border: 2px solid #0f6b06; /* Green border for focus */
+  background: #3a3a3a;
+}
+
+/* Rate display box */
+.rateDisplay {
+  margin-top: 20px;
+  padding: 15px;
+  background-color: #343434; /* Pale green background */
+  border: 1px solid #0f6b06; /* Green border */
+  border-radius: 5px;
+  font-size: 1.2rem;
+  color: #0f6b06; /* Green text */
+  text-align: center;
+}
+
+/* Link styling */
+.a {
+  color: #0f6b06; /* Green for links */
+  text-decoration: none;
+  font-size: 1rem;
+  font-weight: bold;
+  transition: color 0.3s ease;
+}
+
+.a:hover {
+  color: #064d04; /* Darker green for hover */
+  text-decoration: underline;
+}
+
+/* Link wrapper styling */
+.div h2 {
+  font-size: 1.3rem;
+  color: #444;
+  text-align: center;
+  margin-bottom: 15px;
+}
+
+.div p {
+  text-align: center;
+  font-size: 1rem;
+  color: #555;
+  margin-top: 10px;
+}
+
+/* Align content */
+.div {
+  text-align: center;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .container {
+    padding: 15px;
+    margin: 20px auto;
+  }
+
+  .title {
+    font-size: 2rem;
+    margin-bottom: 20px;
+  }
+
+  .rateDisplay {
+    font-size: 1rem;
+    padding: 10px;
+  }
+
+  .a {
+    font-size: 0.9rem;
+  }
+}
