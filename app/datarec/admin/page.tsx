@@ -1,8 +1,8 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { supabase } from '../../lib/supabaseClient';
-import styles from './Orders.module.css';
+import { supabase } from '../../../lib/supabaseClient';
+import styles from '../Orders.module.css';
 import * as XLSX from 'xlsx';
 import JsBarcode from 'jsbarcode';
 
@@ -15,7 +15,14 @@ interface Order {
   buyer_phone: string;
   created_at: string;
   status: string;
-  item_list: { id: number; name: string; price: number; total: number; quantity: number }[];
+  item_list: { 
+    id: number; 
+    name: string; 
+    price: number; 
+    total: number; 
+    quantity: number;
+    created_at: string; // added created_at for each item
+  }[];
   total_price: number;
   total_calculated_price: number;
 }
@@ -25,7 +32,6 @@ const Orders = () => {
   const [filteredOrders, setFilteredOrders] = useState<Order[]>([]);
   const [startDate, setStartDate] = useState<string>('');
   const [endDate, setEndDate] = useState<string>('');
-  const [showProducts, setShowProducts] = useState<number | null>(null);
 
   // Fetch data from Supabase on mount
   useEffect(() => {
@@ -56,19 +62,7 @@ const Orders = () => {
     }
   }, [startDate, endDate, orders]);
 
-  // Handle input changes
-  const handleInputChange = (orderId: number, field: string, value: string | number) => {
-    setFilteredOrders((prevOrders) =>
-      prevOrders.map((order) =>
-        order.id === orderId
-          ? {
-              ...order,
-              [field]: value, // Update the field dynamically
-            }
-          : order
-      )
-    );
-  };
+  // Handle date filter change
   const handleDateFilterChange = () => {
     if (startDate && endDate) {
       const filtered = orders.filter((order) => {
@@ -80,26 +74,10 @@ const Orders = () => {
       setFilteredOrders(orders);
     }
   };
-  
-  // Handle saving the order
-  const handleSave = async (orderId: number) => {
-    const updatedOrder = filteredOrders.find((order) => order.id === orderId);
 
-    if (updatedOrder) {
-      const { data, error } = await supabase
-        .from('order_rec')
-        .upsert([updatedOrder]);
-
-      if (error) {
-        console.error('Error saving order:', error.message);
-      } else {
-        console.log('Order saved successfully', data);
-      }
-    }
-  };
-
-  // Export to Excel function
+  // Function to export filtered orders to Excel
   const exportToExcel = () => {
+    // Only filtered orders are mapped to the Excel data
     const data = filteredOrders.map((order) => ({
       ID: order.id,
       'Order ID': order.order_id,
@@ -110,6 +88,7 @@ const Orders = () => {
       'Created At': new Date(order.created_at).toLocaleString(),
       Status: order.status,
       'Item List': order.item_list.map(item => `${item.name} (${item.quantity} x ₹${item.price})`).join(', '),
+      'Item Created Dates': order.item_list.map(item => new Date(item.created_at).toLocaleString()).join(', '),  // Added item created dates
       'Total Price': order.total_price,
       'Total Calculated Price': order.total_calculated_price,
     }));
@@ -120,10 +99,10 @@ const Orders = () => {
     XLSX.writeFile(wb, 'orders.xlsx');
   };
 
-  // Print invoice function
+  // Function to print the invoice (as before)
   const printInvoice = (order: Order) => {
     const printWindow = window.open('', '_blank', 'width=800,height=600');
-
+    
     if (!printWindow) return;
 
     const itemListHtml = order.item_list.map(item => {
@@ -131,6 +110,7 @@ const Orders = () => {
                 <td>${item.name} (qty-${item.quantity})</td>
                 <td>₹${item.price}</td>
                 <td>₹${item.total}</td>
+                <td>${new Date(item.created_at).toLocaleString()}</td>  <!-- Item Created Date -->
               </tr>`;
     }).join('');
 
@@ -165,6 +145,7 @@ const Orders = () => {
                 <th>Item</th>
                 <th>Price</th>
                 <th>Total</th>
+                <th>Item Created Date</th> <!-- Added item created date column -->
               </tr>
             </thead>
             <tbody>
@@ -192,6 +173,25 @@ const Orders = () => {
     return barcodeCanvas.toDataURL();
   };
 
+  // Function to export filtered items to Excel
+  const downloadItemsAsExcel = () => {
+    // Only filtered orders are mapped to the Excel data for the items
+    const itemDetails = filteredOrders.flatMap(order =>
+      order.item_list.map(item => ({
+        'Product Name': item.name,
+        'Quantity': item.quantity,
+        'Price (₹)': item.price,
+        'Total (₹)': item.total,
+        'Item Created Date': new Date(item.created_at).toLocaleString(),  // Added item created date
+      }))
+    );
+
+    const ws = XLSX.utils.json_to_sheet(itemDetails);
+    const wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, 'Items');
+    XLSX.writeFile(wb, 'items.xlsx');
+  };
+
   return (
     <div className={styles.container}>
       <h1 className={styles.title}>Order List</h1>
@@ -212,6 +212,9 @@ const Orders = () => {
       </div>
 
       <button className={styles.exportButton} onClick={exportToExcel}>Export to Excel</button>
+      
+      {/* Button to download items as Excel */}
+      <button onClick={downloadItemsAsExcel}>Download Items as Excel</button>
 
       {filteredOrders.length > 0 ? (
         <table className={styles.table}>
@@ -226,9 +229,9 @@ const Orders = () => {
               <th>Created At</th>
               <th>Status</th>
               <th>Item List</th>
+              <th>Item Created Date</th> {/* New column */}
               <th>Total Price</th>
               <th>Total Calculated Price</th>
-              <th>Actions</th>
             </tr>
           </thead>
           <tbody>
@@ -236,68 +239,22 @@ const Orders = () => {
               <tr key={order.id}>
                 <td>{order.id}</td>
                 <td>{order.order_id}</td>
-
-                {/* Editable Quantity */}
-                <td>
-                  <input
-                    type="number"
-                    value={order.quantity ?? ''}
-                    onChange={(e) =>
-                      handleInputChange(order.id, 'quantity', e.target.value)
-                    }
-                  />
-                </td>
-
-                {/* Editable Name */}
-                <td>
-                  <input
-                    type="text"
-                    value={order.name}
-                    onChange={(e) =>
-                      handleInputChange(order.id, 'name', e.target.value)
-                    }
-                  />
-                </td>
-
+                <td>{order.quantity}</td>
+                <td>{order.name}</td>
                 <td>{order.buyer_address}</td>
                 <td>{order.buyer_phone}</td>
                 <td>{new Date(order.created_at).toLocaleString()}</td>
-
-                {/* Editable Status */}
+                <td>{order.status}</td>
+                <td>{order.item_list.map(item => `${item.name} (${item.quantity} x ₹${item.price})`).join(', ')}</td>
                 <td>
-                  <select
-                    value={order.status}
-                    onChange={(e) =>
-                      handleInputChange(order.id, 'status', e.target.value)
-                    }
-                  >
-                    <option value="pending">Pending</option>
-                    <option value="shipped">Shipped</option>
-                    <option value="delivered">Delivered</option>
-                    <option value="cancelled">Cancelled</option>
-                  </select>
-                </td>
-
-                {/* Item List */}
-                <td>
-                  {order.item_list.map((item) => (
+                  {order.item_list.map(item => (
                     <div key={item.id}>
-                      <span>{item.name}</span> - 
-                      <span>{item.quantity} x  ₹{item.price}</span> = 
-                      <span>Rs.{item.total}</span>
+                      {new Date(item.created_at).toLocaleString()} {/* Item's created date */}
                     </div>
                   ))}
                 </td>
-
                 <td>{order.total_price}</td>
                 <td>{order.total_calculated_price}</td>
-
-                {/* Save Button */}
-                <td className={styles.actions}>
-                  <button onClick={() => handleSave(order.id)}>Save</button>
-                  {/* Print Invoice Button */}
-                  <button onClick={() => printInvoice(order)}>Print Invoice</button>
-                </td>
               </tr>
             ))}
           </tbody>

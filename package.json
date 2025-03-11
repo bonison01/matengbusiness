@@ -25,6 +25,7 @@
     "dotenv": "^16.4.7",
     "geolib": "^3.3.4",
     "googleapis": "^144.0.0",
+    "jsbarcode": "^3.11.6",
     "jsonwebtoken": "^9.0.2",
     "jspdf": "^2.5.2",
     "jspdf-autotable": "^3.8.4",
