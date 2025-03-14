@@ -10,14 +10,14 @@ interface Order {
   id: number;
   order_id: string;
   quantity: number;
-  name: string;
+  buyer_name: string;
   buyer_address: string;
   buyer_phone: string;
   created_at: string;
   status: string;
   item_list: { 
     id: number; 
-    name: string; 
+    buyer_name: string; 
     price: number; 
     total: number; 
     quantity: number;
@@ -82,12 +82,12 @@ const Orders = () => {
       ID: order.id,
       'Order ID': order.order_id,
       Quantity: order.quantity,
-      'Name': order.name,
+      'Name': order.buyer_name,
       'Buyer Address': order.buyer_address,
       'Buyer Phone': order.buyer_phone,
       'Created At': new Date(order.created_at).toLocaleString(),
       Status: order.status,
-      'Item List': order.item_list.map(item => `${item.name} (${item.quantity} x ₹${item.price})`).join(', '),
+      'Item List': order.item_list.map(item => `${item.buyer_name} (${item.quantity} x ₹${item.price})`).join(', '),
       'Item Created Dates': order.item_list.map(item => new Date(item.created_at).toLocaleString()).join(', '),  // Added item created dates
       'Total Price': order.total_price,
       'Total Calculated Price': order.total_calculated_price,
@@ -107,7 +107,7 @@ const Orders = () => {
 
     const itemListHtml = order.item_list.map(item => {
       return `<tr>
-                <td>${item.name} (qty-${item.quantity})</td>
+                <td>${item.buyer_name} (qty-${item.quantity})</td>
                 <td>₹${item.price}</td>
                 <td>₹${item.total}</td>
                 <td>${new Date(item.created_at).toLocaleString()}</td>  <!-- Item Created Date -->
@@ -135,7 +135,7 @@ const Orders = () => {
             <h1>Mateng Marketplace</h1>
             <div class="barcode"><img src="${barcodeUrl}" alt="Barcode" /></div>
           </div>
-          <p><strong>Name:</strong> ${order.name}</p>
+          <p><strong>Name:</strong> ${order.buyer_name}</p>
           <p><strong>Buyer Address:</strong> ${order.buyer_address}</p>
           <p><strong>Buyer Phone:</strong> ${order.buyer_phone}</p>
           <p><strong>Created At:</strong> ${new Date(order.created_at).toLocaleString()}</p>
@@ -178,7 +178,7 @@ const Orders = () => {
     // Only filtered orders are mapped to the Excel data for the items
     const itemDetails = filteredOrders.flatMap(order =>
       order.item_list.map(item => ({
-        'Product Name': item.name,
+        'Product Name': item.buyer_name,
         'Quantity': item.quantity,
         'Price (₹)': item.price,
         'Total (₹)': item.total,
@@ -240,12 +240,12 @@ const Orders = () => {
                 <td>{order.id}</td>
                 <td>{order.order_id}</td>
                 <td>{order.quantity}</td>
-                <td>{order.name}</td>
+                <td>{order.buyer_name}</td>
                 <td>{order.buyer_address}</td>
                 <td>{order.buyer_phone}</td>
                 <td>{new Date(order.created_at).toLocaleString()}</td>
                 <td>{order.status}</td>
-                <td>{order.item_list.map(item => `${item.name} (${item.quantity} x ₹${item.price})`).join(', ')}</td>
+                <td>{order.item_list.map(item => `${item.buyer_name} (${item.quantity} x ₹${item.price})`).join(', ')}</td>
                 <td>
                   {order.item_list.map(item => (
                     <div key={item.id}>

@@ -10,12 +10,12 @@ interface Order {
   id: number;
   order_id: string;
   quantity: number;
-  name: string;
+  buyer_name: string;
   buyer_address: string;
   buyer_phone: string;
   created_at: string;
   status: string;
-  item_list: { id: number; name: string; price: number; total: number; quantity: number }[];
+  item_list: { id: number; buyer_name: string; price: number; total: number; quantity: number }[];
   total_price: number;
   total_calculated_price: number;
 }
@@ -104,12 +104,12 @@ const Orders = () => {
       ID: order.id,
       'Order ID': order.order_id,
       Quantity: order.quantity,
-      'Name': order.name,
+      'Name': order.buyer_name,
       'Address': order.buyer_address,
       'Phone': order.buyer_phone,
       'Created At': new Date(order.created_at).toLocaleString(),
       Status: order.status,
-      'Item List': order.item_list.map(item => `${item.name} (${item.quantity} x ₹${item.price})`).join(', '),
+      'Item List': order.item_list.map(item => `${item.buyer_name} (${item.quantity} x ₹${item.price})`).join(', '),
       'Total Price': order.total_price,
       'Total Calculated Price': order.total_calculated_price,
     }));
@@ -128,7 +128,7 @@ const Orders = () => {
 
     const itemListHtml = order.item_list.map(item => {
       return `<tr>
-                <td>${item.name} (qty-${item.quantity})</td>
+                <td>${item.buyer_name} (qty-${item.quantity})</td>
                 <td>₹${item.price}</td>
                 <td>₹${item.total}</td>
               </tr>`;
@@ -155,7 +155,7 @@ const Orders = () => {
             <h1>Mateng Marketplace</h1>
             <div class="barcode"><img src="${barcodeUrl}" alt="Barcode" /></div>
           </div>
-          <p><strong>Name:</strong> ${order.name}</p>
+          <p><strong>Name:</strong> ${order.buyer_name}</p>
           <p><strong>Address:</strong> ${order.buyer_address}</p>
           <p><strong>Phone:</strong> ${order.buyer_phone}</p>
           <p><strong>Created At:</strong> ${new Date(order.created_at).toLocaleString()}</p>
@@ -252,7 +252,7 @@ const Orders = () => {
                 <td>
                   <input
                     type="text"
-                    value={order.name}
+                    value={order.buyer_name}
                     onChange={(e) =>
                       handleInputChange(order.id, 'name', e.target.value)
                     }
@@ -282,7 +282,7 @@ const Orders = () => {
                 <td>
                   {order.item_list.map((item) => (
                     <div key={item.id}>
-                      <span>{item.name}</span> - 
+                      <span>{item.buyer_name}</span> - 
                       <span>{item.quantity} x  ₹{item.price}</span> = 
                       <span>Rs.{item.total}</span>
                     </div>

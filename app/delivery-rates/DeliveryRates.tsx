@@ -76,7 +76,7 @@ export default function DeliveryRates() {
         <Link href="/instant.pdf" className={styles.links}>Instant delivery rate outside Imphal</Link>
       </div>
       <div>
-        <Link href="/stand.pdf" className={styles.links}>Standard delivery rates</Link>
+        <Link href="/standard.pdf" className={styles.links}>Standard delivery rates</Link>
       </div><br/><br/><br/>
       <div>
         <p>"For more information please contact our Whatsapp number 8787649928"</p>
