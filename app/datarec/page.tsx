@@ -15,7 +15,7 @@ interface Order {
   buyer_phone: string;
   created_at: string;
   status: string;
-  item_list: { id: number; buyer_name: string; price: number; total: number; quantity: number }[];
+  item_list: { id: number; name: string; price: number; total: number; quantity: number }[];
   total_price: number;
   total_calculated_price: number;
 }
@@ -109,7 +109,7 @@ const Orders = () => {
       'Phone': order.buyer_phone,
       'Created At': new Date(order.created_at).toLocaleString(),
       Status: order.status,
-      'Item List': order.item_list.map(item => `${item.buyer_name} (${item.quantity} x ₹${item.price})`).join(', '),
+      'Item List': order.item_list.map(item => `${item.name} (${item.quantity} x ₹${item.price})`).join(', '),
       'Total Price': order.total_price,
       'Total Calculated Price': order.total_calculated_price,
     }));
@@ -128,7 +128,7 @@ const Orders = () => {
 
     const itemListHtml = order.item_list.map(item => {
       return `<tr>
-                <td>${item.buyer_name} (qty-${item.quantity})</td>
+                <td>${item.name} (qty-${item.quantity})</td>
                 <td>₹${item.price}</td>
                 <td>₹${item.total}</td>
               </tr>`;
@@ -282,7 +282,7 @@ const Orders = () => {
                 <td>
                   {order.item_list.map((item) => (
                     <div key={item.id}>
-                      <span>{item.buyer_name}</span> - 
+                      <span>{item.name}</span> - 
                       <span>{item.quantity} x  ₹{item.price}</span> = 
                       <span>Rs.{item.total}</span>
                     </div>

@@ -17,7 +17,7 @@ interface Order {
   status: string;
   item_list: { 
     id: number; 
-    buyer_name: string; 
+    name: string; 
     price: number; 
     total: number; 
     quantity: number;
@@ -87,7 +87,7 @@ const Orders = () => {
       'Buyer Phone': order.buyer_phone,
       'Created At': new Date(order.created_at).toLocaleString(),
       Status: order.status,
-      'Item List': order.item_list.map(item => `${item.buyer_name} (${item.quantity} x ₹${item.price})`).join(', '),
+      'Item List': order.item_list.map(item => `${item.name} (${item.quantity} x ₹${item.price})`).join(', '),
       'Item Created Dates': order.item_list.map(item => new Date(item.created_at).toLocaleString()).join(', '),  // Added item created dates
       'Total Price': order.total_price,
       'Total Calculated Price': order.total_calculated_price,
@@ -107,7 +107,7 @@ const Orders = () => {
 
     const itemListHtml = order.item_list.map(item => {
       return `<tr>
-                <td>${item.buyer_name} (qty-${item.quantity})</td>
+                <td>${item.name} (qty-${item.quantity})</td>
                 <td>₹${item.price}</td>
                 <td>₹${item.total}</td>
                 <td>${new Date(item.created_at).toLocaleString()}</td>  <!-- Item Created Date -->
@@ -178,7 +178,7 @@ const Orders = () => {
     // Only filtered orders are mapped to the Excel data for the items
     const itemDetails = filteredOrders.flatMap(order =>
       order.item_list.map(item => ({
-        'Product Name': item.buyer_name,
+        'Product Name': item.name,
         'Quantity': item.quantity,
         'Price (₹)': item.price,
         'Total (₹)': item.total,
@@ -245,7 +245,7 @@ const Orders = () => {
                 <td>{order.buyer_phone}</td>
                 <td>{new Date(order.created_at).toLocaleString()}</td>
                 <td>{order.status}</td>
-                <td>{order.item_list.map(item => `${item.buyer_name} (${item.quantity} x ₹${item.price})`).join(', ')}</td>
+                <td>{order.item_list.map(item => `${item.name} (${item.quantity} x ₹${item.price})`).join(', ')}</td>
                 <td>
                   {order.item_list.map(item => (
                     <div key={item.id}>
