@@ -110,8 +110,8 @@ const Header: React.FC = () => {
             <Link href="/delivery-rates" className={styles.navButton} onClick={() => setMenuOpen(false)}>
               Delivery Rates
             </Link>
-            <Link href="/searchOrders" className={styles.navButton} onClick={() => setMenuOpen(false)}>
-              Search Order
+            <Link href="https://cargo2-one.vercel.app/" className={styles.navButton} onClick={() => setMenuOpen(false)}>
+              Cargo Service
             </Link>
             <Link href="/login" className={styles.navButton} onClick={() => setMenuOpen(false)}>
               Log In
