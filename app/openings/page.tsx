@@ -185,6 +185,7 @@ const JobApplicationForm = () => {
           <option value="Delivery Agent">Delivery Agent</option>
           <option value="Video Editor">Video Editor</option>
           <option value="Customer Service Associate">Customer Service Associate</option>
+          <option value="Business Executive">Business Executive</option>
         </select>
       </div>
       {formData.position === 'Video Editor' && (
