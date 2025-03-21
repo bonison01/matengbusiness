@@ -11,6 +11,7 @@ interface JobOpening {
   email: string;
   position: string;
   resume_url: string;
+  created_at: string; // Include created_at field
 }
 
 const JobOpeningsPage = () => {
@@ -53,6 +54,7 @@ const JobOpeningsPage = () => {
             <h2 className={styles.name}>{job.name}</h2>
             <p className={styles.detail}>Email: {job.email}</p>
             <p className={styles.detail}>Position: {job.position}</p>
+            <p className={styles.detail}>Created At: {new Date(job.created_at).toLocaleString()}</p>
             {job.resume_url && (
               <a
                 href={job.resume_url}
