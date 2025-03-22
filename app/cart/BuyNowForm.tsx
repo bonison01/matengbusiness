@@ -43,6 +43,12 @@ const BuyNowForm: React.FC<BuyNowFormProps> = ({ items, totalPrice, onClose, onO
 
   const generateOrderId = () => `ORD-${Math.floor(100000 + Math.random() * 900000)}`;
 
+  // Helper function to validate UUID format
+  const isValidUUID = (uuid: string) => {
+    const regex = /^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$/;
+    return regex.test(uuid);
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
@@ -65,6 +71,10 @@ const BuyNowForm: React.FC<BuyNowFormProps> = ({ items, totalPrice, onClose, onO
 
     try {
       const products = await fetchEmailsAndBusiness();
+      const businessId = products[0]?.business_id;
+
+      // If the business_id is invalid or empty, set it to null
+      const validBusinessId = businessId && isValidUUID(businessId) ? businessId : null;
       const email = products[0]?.email || '';
 
       const orderData = {
@@ -72,7 +82,7 @@ const BuyNowForm: React.FC<BuyNowFormProps> = ({ items, totalPrice, onClose, onO
         buyer_name: name,
         buyer_address: address,
         buyer_phone: phone,
-        business_id: products[0]?.business_id || '',
+        business_id: validBusinessId,  // Ensure business_id is valid or null
         email,
         total_calculated_price: displayTotalPrice.toFixed(2),  // Store total_calculated_price instead of total_price
         item_list: items.map((item) => ({
