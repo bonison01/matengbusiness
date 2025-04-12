@@ -66,7 +66,7 @@ const Header: React.FC = () => {
         {/* Conditional Rendering for Logged In Users or Employees */}
         {isLoggedIn && !isEmployeeLoggedIn && (
           <>
-            <Link href="/discover" className={styles.navButton} onClick={() => setMenuOpen(false)}>
+            {/* <Link href="/discover" className={styles.navButton} onClick={() => setMenuOpen(false)}>
               Discover
             </Link>
             <Link href="/delivery-rates" className={styles.navButton} onClick={() => setMenuOpen(false)}>
@@ -77,6 +77,9 @@ const Header: React.FC = () => {
             </Link>
             <Link href="/profile" className={styles.navButton} onClick={() => setMenuOpen(false)}>
               Profile
+            </Link> */}
+            <Link href="https://justmateng.com/delivery-rates" className={styles.navButton} onClick={() => setMenuOpen(false)}>
+              Delivery Rates
             </Link>
             <button onClick={handleLogout} className={styles.logoutButton}>
               Log Out
@@ -104,10 +107,10 @@ const Header: React.FC = () => {
         {/* For non-logged in users */}
         {!isLoggedIn && !isEmployeeLoggedIn && (
           <>
-            <Link href="/discover" className={styles.navButton} onClick={() => setMenuOpen(false)}>
+            <Link href="https://justmateng.com/products" className={styles.navButton} onClick={() => setMenuOpen(false)}>
               Discover
             </Link>
-            <Link href="/delivery-rates" className={styles.navButton} onClick={() => setMenuOpen(false)}>
+            <Link href="https://justmateng.com/delivery-rates" className={styles.navButton} onClick={() => setMenuOpen(false)}>
               Delivery Rates
             </Link>
             <Link href="https://cargo3.vercel.app/" className={styles.navButton} onClick={() => setMenuOpen(false)}>

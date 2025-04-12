@@ -35,7 +35,7 @@ export default function Login() {
         // Emit a custom event to notify Header about login
         window.dispatchEvent(new Event('loginStatusChange'));
 
-        router.push('/discover');
+        router.push('/delivery_orders');
       } else {
         setErrorMessage('Invalid email or password');
       }

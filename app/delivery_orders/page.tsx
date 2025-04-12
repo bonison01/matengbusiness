@@ -145,7 +145,7 @@ export default function FilteredGoogleSheetWithFilters() {
 
   return (
     <div className="container">
-      <h1 className="title">My Google Sheets Data</h1>
+      <h1 className="title">Delivery Order data</h1>
       {loggedInEmail && (
         <p className="info">
           Logged in as: <strong>{loggedInEmail}</strong>
