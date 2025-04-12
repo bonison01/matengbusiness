@@ -9,7 +9,7 @@ export default function Home() {
   useEffect(() => {
     // Wait for a moment before redirecting to make sure the loading UI is visible
     setTimeout(() => {
-      router.push('/discover/product'); // Redirect to /home page
+      router.push('/delivery_orders'); // Redirect to /home page
     }, 1000); // Adjust the timeout as needed
   }, [router]);
 
